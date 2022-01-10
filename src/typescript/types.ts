@@ -1,100 +1,130 @@
 export const Types = () => {
-  console.log('---------------Types---------------')
-  // :number
-  const decimalValue: number = 10
-  const hexaDecimalValue: number = 0xf10b
-  const binaryValue: number = 0b110100
-  const octalValue: number = 0o410
-  // :string
-  const string1: string = "Hello World"
-  const string2: string = 'Hello World'
-  // :boolean
-  const boolean: boolean = true
-  // :object
-  const object: object = [{name: 'Jack', age: 45}]
-  // :array
-  // square brackets
-  const stringArray: string[] = ['Jack', 'James']
-  const anyArray: any[] = ['Jack', 5]
-  // generic array
-  const genericArray: Array<string> = ['Apple', 'Orange', 'Banana']
-  // :enum
-  const enums = () => {
-    console.log('\nEnum:')
-    enum Role { ADMIN, READ_ONLY, AUTHOR }
+	console.log('---------------Types---------------')
+	// :number
+	const decimalValue: number = 10
+	const hexaDecimalValue: number = 0xf10b
+	const binaryValue: number = 0b110100
+	const octalValue: number = 0o410
+	// :string
+	const string1: string = 'Hello World'
+	const string2: string = 'Hello World'
+	// :boolean
+	const boolean: boolean = true
+	// :object
+	const object: object = [{ name: 'Jack', age: 45 }]
+	// :array
+	// square brackets
+	const stringArray: string[] = ['Jack', 'James']
+	const anyArray: any[] = ['Jack', 5]
+	// generic array
+	const genericArray: Array<string> = ['Apple', 'Orange', 'Banana']
+	// :enum
+	const enums = () => {
+		console.log('\nEnum:')
+		enum Role {
+			ADMIN,
+			READ_ONLY,
+			AUTHOR,
+		}
 
-    const person = {
-      name: 'Jack',
-      role: Role.ADMIN
-    }
-    console.log(person)
+		const person = {
+			name: 'Jack',
+			role: Role.ADMIN,
+		}
+		console.log(person)
 
-    if(person.role === Role.ADMIN) {
-      console.log('role is admin')
-    }
+		if (person.role === Role.ADMIN) {
+			console.log('role is admin')
+		}
+	}
+	enums()
+
+	// tuples => array with exact elements and specified types
+	const tuple = () => {
+		console.log('\nTuple:')
+
+		const person: {
+			name: string
+			role: [number, string]
+		} = {
+			name: 'Jack',
+			role: [1, 'editor'],
+		}
+		console.log(person)
+
+		// ensures this won't happen
+		//person.role[1] = ['admin']
+
+		// and only allow this
+		person.role = [2, 'admin']
+		console.log(person)
+
+		// doesn't work for push()
+		person.role.push('admin')
+		console.log(person)
+	}
+	tuple()
+	// unions => multiple type choices
+	const union = (value1: string | number, value2: string | number) => {
+		console.log(`\nUnion:\n${value1}\n${value2}`)
+	}
+	union('union string', 2)
+	// literals => exact types
+	const literal = (value1: string | number) => {
+		console.log('\nLiteral:')
+		if (typeof value1 === 'string') console.log(`${value1} is string`)
+		if (typeof value1 !== 'string') console.log(`${value1} isn't string`)
+		if (typeof value1 === 'string' && value1 === 'value1') console.log(`${value1} is string of value: value1`)
+	}
+	literal('value1')
+	// :any
+	const any: any = null
+	// :null
+	const nullConst: null = null
+	// :undefined
+	const undefinedConst: undefined = undefined
+	// :void => used in no-return functions, returns undefined
+	const logVoid = (value: string): void => {
+		console.log(`\nVoid:\n${value}`)
+	}
+	logVoid('Void value')
+	// :never => used in no-return functions, cannot have null or undefined, returns nothing
+	const throwError = (errorMsg: string): never => {
+		console.log('\nNever:')
+		throw new Error(errorMsg)
+		//while(true) {}
+	}
+	//throwError('never throw error 404')
+	// type aliases / custom type
+	type Combinable = number | string
+	type address = number | 'without address'
+
+	// ADVANCED TYPES
+	// Symbol type => creates unique ID https://www.youtube.com/watch?v=Psdf5Bo1SFM
+	console.log('\nSymbol:')
+	let s1 = Symbol('This is Symbol')
+	console.log(s1.toString())
+	let s2 = Symbol('This is Symbol')
+	// Return false because symbols are unique no matter the value
+	console.log(s1 === s2)
+
+  // Checks if symbol with key RegSymbol already exists,
+	// if it does it will pass the symbol's value to s3
+	// if it doesn't it will create new symbol
+	let s3 = Symbol.for('RegSymbol')
+	let s4 = Symbol.for('RegSymbol')
+	console.log(s3 === s4)
+
+  console.log(Symbol.keyFor(s4))
+
+  let fname = Symbol('First name')
+  let person = {
+    [fname]: 'John'
   }
-  enums()
+  console.log(Object.getOwnPropertySymbols(person))
 
-  // tuples => array with exact elements and specified types
-  const tuple = () => {
-    console.log('\nTuple:')
-
-    const person: {
-      name: string
-      role: [number, string]
-    } = {
-      name: 'Jack',
-      role: [1, 'editor']
-    }
-    console.log(person)
-
-    // ensures this won't happen
-    //person.role[1] = ['admin']
-
-    // and only allow this
-    person.role = [2, 'admin']
-    console.log(person)
-    
-    // doesn't work for push()
-    person.role.push('admin')
-    console.log(person)
-  }
-  tuple()
-  // unions => multiple type choices
-  const union = (value1: string | number, value2: string | number) => { 
-    console.log(`\nUnion:\n${value1}\n${value2}`)
-  } 
-  union('union string', 2)
-  // literals => exact types
-  const literal = (value1: string | number) => {
-    console.log('\nLiteral:')
-    if (typeof value1 === 'string')
-      console.log(`${value1} is string`)
-    if (typeof value1 !== 'string')
-      console.log(`${value1} isn't string`)
-    if (typeof value1 === 'string' && value1 === 'value1')
-      console.log(`${value1} is string of value: value1`)
-  } 
-  literal('value1')
-  // :any
-  const any: any = null
-  // :null
-  const nullConst: null = null
-  // :undefined
-  const undefinedConst: undefined = undefined
-  // :void => used in no-return functions, returns undefined
-  const logVoid = (value: string): void => { 
-    console.log(`\nVoid:\n${value}`)
-  } 
-  logVoid('Void value')
-  // :never => used in no-return functions, cannot have null or undefined, returns nothing
-  const throwError = (errorMsg: string): never => { 
-    console.log('\nNever:')
-    throw new Error(errorMsg)
-    //while(true) {}
-  }
-  //throwError('never throw error 404')
-  // type aliases / custom type
-  type Combinable = number | string
-  type address = number | 'without address'
+	// Mapped types https://www.youtube.com/watch?v=RjQpep8fBdo
+	console.log('\nMapped types:')
+	// Utility types https://www.youtube.com/watch?v=Fgcu_iB2X04
+	console.log('\nUtility types:')
 }

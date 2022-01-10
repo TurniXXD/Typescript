@@ -1,3 +1,3 @@
 export const Interface = () => {
-  console.log('---------------Interface-----------')
+	console.log('---------------Interface-----------')
 }

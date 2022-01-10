@@ -1,3 +1,3 @@
 export const Generics = () => {
-  console.log('---------------Generics------------')
+	console.log('---------------Generics------------')
 }
